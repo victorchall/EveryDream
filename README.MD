@@ -8,7 +8,6 @@ Captioned training together with regularization has enabled multi-subject and mu
 
 You can download a large scale model for Final Fantasy 7 Remake here: https://huggingface.co/panopstor/ff7r-stable-diffusion and be sure to also follow up on the gist link at the bottom for more information along with links to example output of a multi-model fine tuning. 
 
-
 Since DreamBooth is now fading away in favor of improved techniques, I will call the tecnique of using fully captioned training together with ground truth data "EveryDream" to avoid confusion.
 
 If you are interested in caption training with stable diffusion and have a 24GB Nvidia GPU I suggest trying this repo out:
@@ -28,7 +27,14 @@ Or you can configure your own venv, container, or just on your local Python use:
 
 ![](demo/demo03.png)
 
-This script enables you to webscrape using the Laion parquet files which are available on Huggingface.co.  It will rename downloaded files to the best of its ability to the TEXT (caption) of the image with the original file extension, which can be plugged into the new class of caption-capable DreamBooth apps that will use the filename as the prompt for training.  
+This script enables you to webscrape using the Laion parquet files which are available on Huggingface.co. 
+
+It has been tested with 2B-en-aesthetic, but may need minor tweaks for some other datasets that contain different columns.
+
+https://huggingface.co/datasets/laion/laion2B-en-aesthetic
+
+
+ It will rename downloaded files to the best of its ability to the TEXT (caption) of the image with the original file extension, which can be plugged into the new class of caption-capable DreamBooth apps that will use the filename as the prompt for training.  
 
 One suggested use is to take this data and replace regularization images with ground truth data from the Laion dataset.
 
@@ -49,3 +55,7 @@ Query for both "man" and "photo" anywhere in the caption, and write them to z:/m
     python scripts/download_laion.py --search_text "man,photo" --out_dir "z:/myDumpFolder" --laion_dir "x:/datahoard/laion5b"
 
 ![](demo/demo02.png)
+
+## Other resources
+
+Nvidia has compiled a close up photo set here: https://github.com/NVlabs/ffhq-dataset
