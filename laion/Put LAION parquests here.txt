@@ -1,0 +1,2 @@
+Suggested set is here: https://huggingface.co/datasets/laion/laion2B-en-aesthetic
+this is the default folder unless specified otherwise

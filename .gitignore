@@ -1,3 +1,8 @@
+# EveryDream
+/everydream-venv/**
+/laion/*.parquet
+/output/**
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
