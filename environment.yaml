@@ -4,3 +4,4 @@ dependencies:
   - pyarrow>=9.0.0
   - aiofiles>=22.1.0
   - colorama>=0.4.5
+  - aiohttp>=3.8.3
