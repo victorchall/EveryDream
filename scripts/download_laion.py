@@ -174,7 +174,7 @@ async def call_http(image_url: str, out_file_name: str, session: ClientSession):
             print(f"{Fore.YELLOW}Failed to download image, HTTP response code: {res.status} for {Fore.LIGHTWHITE_EX}{image_url}{Style.RESET_ALL}")
             downloaded_count -= 1
     except Exception as e:
-        print(f"{Fore.YELLOW} *** Error downloading image: {Fore.LIGHTWHITE_EX}{image_url}{Fore.YELLOW}, skipping: {e}{Style.RESET_ALL}")
+        print(f"{Fore.YELLOW} *** Error downloading image: {Fore.LIGHTWHITE_EX}{image_url}{Fore.YELLOW}, ex: {str(e)}{Style.RESET_ALL}")
         downloaded_count -= 1
         pass
     return None
@@ -310,7 +310,7 @@ if __name__ == '__main__':
     if (opt.laion_dir[-1] != "/" or opt.laion_dir[-1] != "\\"):
         opt.laion_dir += "/"
     
-    if (isWindows): 
+    if (isWindows()): 
         print("{Fore.CYAN}Windows detected, using asyncio.WindowsSelectorEventLoopPolicy{Style.RESET_ALL}")
         asyncio.set_event_loop_policy(asyncio.WindowsSelectorEventLoopPolicy())
     else:
