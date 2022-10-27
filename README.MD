@@ -11,7 +11,9 @@ You can download a large scale model for Final Fantasy 7 Remake here: https://hu
 Since DreamBooth is now fading away in favor of improved techniques, I will call the tecnique of using fully captioned training together with ground truth data "EveryDream" to avoid confusion.
 
 If you are interested in caption training with stable diffusion and have a 24GB Nvidia GPU I suggest trying this repo out:
-https://github.com/victorchall/EveryDream-trainer
+https://github.com/victorchall/EveryDream-trainer (currently alpha but working)
+
+Join the EveryDream discord here: https://discord.gg/uheqxU6sXN
 
 ## Install
 

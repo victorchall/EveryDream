@@ -1,1 +1,1 @@
-call everydream-vevnv/scripts/activate.bat
+call everydream-venv/scripts/activate.bat
