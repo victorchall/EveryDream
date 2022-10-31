@@ -4,9 +4,7 @@
 /output/**
 /.cache/**
 /.venv/**
-/input/*.jpg
-/input/*.webp
-/input/*.png
+/input/**
 /scripts/BLIP
 
 # Byte-compiled / optimized / DLL files
