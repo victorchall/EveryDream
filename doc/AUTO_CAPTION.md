@@ -52,13 +52,16 @@ You may find the following setting useful to deal with issues with bad auto-capt
 
 ### --nucleus
 
-Uses an alternative "nucleus" algorithm instead of the default "beam 16" algorithm.  Nucleus produces relatively short captions but reliably absent of repeated words and phrases, comparable to using beam 16 which can be adjusted further but may need more tweaking. 0.3 to 3 seem to produce sensible prompts, though 0.01 and 2000 will still work fairly well.
+Uses an alternative "nucleus" algorithm instead of the default "beam 16" algorithm.  Nucleus produces relatively short captions but reliably absent of repeated words and phrases, comparable to using beam 16 which can be adjusted further but may need more tweaking. 
+
 
     python scripts/auto_caption.py --nucleus
 
 ![Beam vs Nucleus](../demo/beam_vs_nucleus.webp)
 
-Additional captions for above with nucleus:
+See q_factor below. 0.3 to 3 seem to produce sensible prompts, though 0.01 and 2000 will still work fairly well.
+
+Additional caption example for above with nucleus with different q_factor values:
 
 nucleus q_factor 9999: *"a number of kites painted in different colors in a ceiling"*
 
@@ -72,7 +75,7 @@ nucleus q_factor 0.00001: (same as above)
 
 ### --q_factor
 
-An adjustment for the algorithm used. 
+An tuning adjustment depending the algorithm used. 
 
 For the default beam 16 algorithm it limits the ability of words and phrases to be repeated.  Higher value reduces repeated words and phrases.  0.6-1.4 are sensible values for beam 16.  Default is 0.8 and works well with the defaulted value min_length of 24.  Consider using higher values if you use a min_length higher than 24 with beam 16.
 
