@@ -30,21 +30,21 @@ Changes the default output directory.  Default is /output
 
 ### --format
 
-"filename" or "mrwho"
+The default behavior will simply name the file the caption .EXT and, if needed, add _n at the end to avoid collisions, for use with EveryDream trainer or Kane Wallmann's dream booth fork. 
 
-"filename" will simply name the file the caption .EXT and, if needed, add _n at the end to avoid collisions, for use with EveryDream trainer or Kane Wallmann's dream booth fork.  This is the default behavior if --format is not set.
+ex output: *"a man in a blue suit and a woman in a black dress standing next to each other in front of a table with a potted plant on it.jpg"*
 
-"mrwho" will add \[number\]@ as a prefix for use with MrWho's captioning system (ex. JoePenna dream both fork) which uses that naming standard to avoid file name collisions.
+"mrwho" or "joepenna" will add \[number\]@ as a prefix for use with MrWho's captioning system (on JoePenna dream both fork) which uses that naming standard to avoid file name collisions.
 
     python scripts/auto_caption.py --format "mrwho"
 
 ## Tweaks
 
-You may find the following setting useful to deal with issues with bad auto-captioning.  Start with defaults, and if you have issues with captions that seem inaccurate or reptitious, try some of the following settings. 
+You may find the following setting useful to deal with issues with bad auto-captioning.  Start with defaults, and if you have issues with captions that seem inaccurate or reptitious try some of the following settings. 
 
 ### --nucleus
 
-Uses an alternative "nucleus" algorithm instead of the default "beam 16" algorithm.  Nucleus produces relatively short captions but reliably absent of repeated words and phrases, comparable to using beam 16 which can be adjusted further but may need more tweaking. 0.3 to 3 seem to produce sensible prompts.
+Uses an alternative "nucleus" algorithm instead of the default "beam 16" algorithm.  Nucleus produces relatively short captions but reliably absent of repeated words and phrases, comparable to using beam 16 which can be adjusted further but may need more tweaking. 0.3 to 3 seem to produce sensible prompts, though 0.01 and 2000 will still work fairly well.
 
     python scripts/auto_caption.py --nucleus
 
@@ -66,7 +66,7 @@ nucleus q_factor 0.00001: (same as above)
 
 An adjustment for the algorithm used. 
 
-For the default beam 16 algorithm it limits the ability of words and phrases to be repeated.  Higher value reduces repeated words and phrases.  0.6-1.3 are sensible values for beam 16.  Default is 0.8 and works well with the defaulted value min_length == 24.  Consider using higher values if you use a min_length higher than 24 with beam 16.
+For the default beam 16 algorithm it limits the ability of words and phrases to be repeated.  Higher value reduces repeated words and phrases.  0.6-1.4 are sensible values for beam 16.  Default is 0.8 and works well with the defaulted value min_length of 24.  Consider using higher values if you use a min_length higher than 24 with beam 16.
 
 For nucleus (--nucleus), it simply changes the opinion on the prompt and does not impact repeats.  Values ranging from 0.01 to 200 seem sensible and default of 0.8 usually works well.
 
@@ -80,7 +80,11 @@ Default is 24.  Sensible values are 15 to 30, max is 48.  Larger values are much
 
     python scripts/auto_caption.py --min_length 20
 
+    python scripts/auto_caption.py --min_length 34 --q_factor 1.4
+
 ![Q vs Min for beam](../demo/beam_min_vs_q.webp)
+
+### Note
 
 If you continue to both increase min_length and q_factor you start to get oddly specific prompts. For example using the above image:
 

@@ -43,7 +43,7 @@ Nvidia has compiled a close up photo set: [ffhq-dataset](https://github.com/NVla
 
 ## Batch run
 
-You can throw commands in a shell/cmd script to run several searches, but I will leave this exercise to the user
+You can throw commands in a shell/cmd script to run several searches, but I will leave this exercise to the user.
 
     python scripts/download_laion.py --search_text "jan van eyck" --limit 200
     python scripts/download_laion.py --search_text " hokusai" --limit 200
