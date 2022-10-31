@@ -14,6 +14,14 @@ Place input files into the /input folder
 
 Files will be **copied** and renamed to the caption as the file name and placed into /output. 
 
+## Colab notebook
+
+This will run quite well on a T4 instance on Google Colab.  Don't waste credits on more powerful GPUs.
+
+https://colab.research.google.com/github/victorchall/EveryDream/blob/main/AutoCaption.ipynb
+
+It should work on other GPU providers on minimal power Nvidia GPU instances, but you are on your own to upload and download files.
+
 ## Additional command line args:
 
 ### --img_dir

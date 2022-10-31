@@ -10,16 +10,15 @@ For example, you can download a large scale model for Final Fantasy 7 Remake her
 
 Since DreamBooth is now fading away in favor of improved techniques, I will call the tecnique of using fully captioned training together with ground truth data "EveryDream" to avoid confusion.
 
-If you are interested in caption training with stable diffusion and general purpose fine tuning, and have a 24GB Nvidia GPU, you can try my trainer fork:
-https://github.com/victorchall/EveryDream-trainer (currently a bit beta but working)
-
 Join the EveryDream discord here: https://discord.gg/uheqxU6sXN
 
 ## Tools
 
-[Download scrapes using Laion](./doc/LAION_SCRAPE.md) - Web scrapes images off the web using Laion data files.
+[Download scrapes using Laion](./doc/LAION_SCRAPE.md) - Web scrapes images off the web using Laion data files (runs on CPU).
 
-[Auto Captioning](./doc/AUTO_CAPTION.md) - Uses BLIP interrogation to caption images for training.
+[Auto Captioning](./doc/AUTO_CAPTION.md) - Uses BLIP interrogation to caption images for training (includes colab notebook, needs minimal GPU).
+
+[Training](https://github.com/victorchall/EveryDream-trainer) - Fine tuning with captioned training and ground truth data (needs 24GB GPU).
 
 ## Install
 
