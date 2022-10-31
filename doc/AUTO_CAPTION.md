@@ -4,7 +4,7 @@ Automatic captioning uses Salesforce's BLIP to automatically create a clean sent
 
 This requires an Nvidia GPU, but is not terribly intensive work.  It should run fine on something like a 1050 Ti 4GB.
 
-Images should be **square** (1:1 H:W ratio), but they can be any size.  I suggest using [Birme](https://www.birme.net/?target_width=512&target_height=512&auto_focal=false&image_format=webp&quality_jpeg=95&quality_webp=99) to crop and resize first, but there are various tools out there for this.  I strongly suggest making sure to crop well for training! 
+I suggest using [Birme](https://www.birme.net/?target_width=512&target_height=512&auto_focal=false&image_format=webp&quality_jpeg=95&quality_webp=99) to crop and resize first, but there are various tools out there for this.  I strongly suggest making sure to crop well for training!  It's best to crop to square first because you do not want to caption things that are later removed by cropping.
 
 Auto-caption is fast and not very resource intensive, but it still uses GPU.  You only need an Nvidia GPU with 2GB VRAM to run.
 
