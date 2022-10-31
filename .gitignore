@@ -2,6 +2,12 @@
 /everydream-venv/**
 /laion/*.parquet
 /output/**
+/.cache/**
+/.venv/**
+/input/*.jpg
+/input/*.webp
+/input/*.png
+/scripts/BLIP
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

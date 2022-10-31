@@ -1,7 +1,5 @@
 import sys
 import os
-from types import coroutine
-from unittest.util import _MAX_LENGTH
 import pandas as pd
 import pyarrow as pa
 import argparse
