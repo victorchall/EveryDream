@@ -18,7 +18,11 @@ Join the EveryDream discord here: https://discord.gg/uheqxU6sXN
 
 [Auto Captioning](./doc/AUTO_CAPTION.md) - Uses BLIP interrogation to caption images for training (includes colab notebook, needs minimal GPU).
 
-[Training](https://github.com/victorchall/EveryDream-trainer) - Fine tuning with captioned training and ground truth data (needs 24GB GPU).
+[File renaming](./doc/FILE_RENAME.md) - Simple script for replacing generic pronouns in filenames with proper names (ex "a man" -> "john doe").
+
+see clip_rename.bat for an example to chain captioning and renaming together.
+
+[Training](https://github.com/victorchall/EveryDream-trainer) (separate repo) - Fine tuning with captioned training and ground truth data (needs 24GB GPU).
 
 ## Install
 
@@ -50,4 +54,4 @@ Or you if you wish to configure your own venv, container/WSL, or Linux:
 
     git clone https://github.com/salesforce/BLIP scripts/BLIP
 
-Thanks to the SalesForce team for the BLIP tool. It uses CLIP to produce sane sentences like you would expect to see in alt-text.
+Thanks to the SalesForce team for the [BLIP tool](https://github.com/salesforce/BLIP). It uses CLIP to produce sane sentences like you would expect to see in alt-text.
