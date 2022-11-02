@@ -18,9 +18,9 @@ Join the EveryDream discord here: https://discord.gg/uheqxU6sXN
 
 [Auto Captioning](./doc/AUTO_CAPTION.md) - Uses BLIP interrogation to caption images for training (includes colab notebook, needs minimal GPU).
 
-[File renaming](./doc/FILE_RENAME.md) - Simple script for replacing generic pronouns in filenames with proper names (ex "a man" -> "john doe").
+[File renaming](./doc/FILE_RENAME.md) - Simple script for replacing generic pronouns that come out of clip in filenames with proper names (ex "a man" -> "john doe", "a person" -> "jane doe").
 
-see clip_rename.bat for an example to chain captioning and renaming together.
+See clip_rename.bat for an example to chain captioning and renaming together.
 
 [Training](https://github.com/victorchall/EveryDream-trainer) (separate repo) - Fine tuning with captioned training and ground truth data (needs 24GB GPU).
 

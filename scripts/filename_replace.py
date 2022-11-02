@@ -1,6 +1,3 @@
-import aiofiles
-import aiofiles.os
-import asyncio
 import sys
 import os
 import glob
@@ -21,54 +18,76 @@ def get_parser(**parser_kwargs):
         type=str,
         nargs="?",
         const=True,
-        default="a man,a woman,a person",
+        default=None,
         help="what strings to replace, in csv format, default: 'a man,a woman,a person'",
     ),
     parser.add_argument(
         "--replace",
         type=str,
         nargs="?",
-        required=True,
+        required=False,
         const=True,
-        default="filename",
+        default=None,
         help="string to replace with, ex. 'john doe'",
     ),
+    parser.add_argument(
+        "--append_only",
+        type=str,
+        nargs="?",
+        required=False,
+        const=True,
+        default=None,
+        help="skips pronoun replace, adds a string at the end of the filename, use for 'by artist name' or 'in the style of somestyle'",
+    )
     
     return parser
 
 def isWindows():
     return sys.platform.startswith('win')
 
-async def rename_files(opt):
-    print("go")
-    find_list = opt.find.split(",")
+def get_replace_list(opt):
+    if opt.find is None:
+        return ("a man", "a woman", "a person", \
+            "a girl", "a boy", \
+            "a young woman", "a young man", \
+            "a beautiful woman", "a handsome man", \
+            "a beautiful young woman", "a handsome young man",        
+        )
+    else:
+        return opt.find.split(",")
 
-    dir_iter = await aiofiles.os.scandir(opt.img_dir)
-    for file in dir_iter:
-        # get file extension
-        if file.is_file() and os.path.splitext(file.name)[1] in (".jpg", ".png", ".jpeg", ".gif", ".bmp", ".webp"):
-            try:
+
+def rename_files(opt):
+    find_list = get_replace_list(opt)
+
+    for file in glob.glob(opt.img_dir + "/*"):
+        print(file)
+
+        if os.path.splitext(file)[1] in (".jpg", ".png", ".jpeg", ".gif", ".bmp", ".webp"):
+            new_filename = file
+            if opt.append_only is not None:
+                new_filename = f"{os.path.splitext(file)[0]} {opt.append_only}{os.path.splitext(file)[1]}"
+            else:
                 for s in find_list:
                     if s in file.name:
-                        new_filename = file.name.replace(s, opt.replace)
-                        await aiofiles.os.rename(file, os.path.join(opt.img_dir, new_filename))
+                        new_filename = new_filename.replace(s, opt.replace)
+            try:
+                print(f"Renaming {file} to {new_filename}")
+                os.rename(file, new_filename)
             except Exception as e:
                 print(f"error opening file: {file}")
                 print(f"{e}")
                 raise e
-
+            
 if __name__ == "__main__":
     parser = get_parser()
     opt = parser.parse_args()
-
-    if (isWindows()): 
-        print("{Fore.CYAN}Windows detected, using asyncio.WindowsSelectorEventLoopPolicy{Style.RESET_ALL}")
-        asyncio.set_event_loop_policy(asyncio.WindowsSelectorEventLoopPolicy())
-    else:
-        print("{Fore.CYAN}Unix detected, using default asyncio event loop policy{Style.RESET_ALL}")
+    
     import time
 
     s = time.perf_counter()
-    result = asyncio.run(rename_files(opt))
+
+    rename_files(opt)
+
     elapsed = time.perf_counter() - s
     print(f"{__file__} executed in {elapsed:0.2f} seconds.")

@@ -8,8 +8,10 @@ from torchvision.transforms.functional import InterpolationMode
 import torch
 import aiohttp
 import asyncio
+import subprocess
 
 SIZE = 384
+BLIP_MODEL_URL = 'https://storage.googleapis.com/sfr-vision-language-research/BLIP/models/model_base_caption_capfilt_large.pth'
 
 def get_parser(**parser_kwargs):
     parser = argparse.ArgumentParser(**parser_kwargs)
@@ -91,9 +93,9 @@ async def main(opt):
 
     if not os.path.exists(model_cache_path):
         print(f"Downloading model to {model_cache_path}... please wait")
-        blip_model_url = 'https://storage.googleapis.com/sfr-vision-language-research/BLIP/models/model_base_caption_capfilt_large.pth'
+        
         async with aiohttp.ClientSession() as session:
-            async with session.get(blip_model_url) as res:
+            async with session.get(BLIP_MODEL_URL) as res:
                 result = await res.read()
                 with open(model_cache_path, 'wb') as f:
                     f.write(result)
@@ -158,7 +160,6 @@ def isWindows():
     return sys.platform.startswith("win")
 
 if __name__ == "__main__":
-    print(f"starting in {print(os.getcwd())}")
     parser = get_parser()
     opt = parser.parse_args()
 
@@ -171,6 +172,9 @@ if __name__ == "__main__":
     else:
         print("Unix detected, using default asyncio event loop policy")
 
+    if not os.path.exists("scripts/BLIP"):
+        print("BLIP not found, cloning BLIP repo")
+        subprocess.run(["git", "clone", "https://github.com/salesforce/BLIP", "scripts/BLIP"])
     blip_path = "scripts/BLIP"
     sys.path.append(blip_path)
 
