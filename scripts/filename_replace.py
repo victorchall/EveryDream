@@ -69,7 +69,7 @@ def rename_files(opt):
                 new_filename = f"{os.path.splitext(file)[0]} {opt.append_only}{os.path.splitext(file)[1]}"
             else:
                 for s in find_list:
-                    if s in file.name:
+                    if s in file:
                         new_filename = new_filename.replace(s, opt.replace)
             try:
                 print(f"Renaming {file} to {new_filename}")
