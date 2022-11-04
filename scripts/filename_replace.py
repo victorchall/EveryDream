@@ -73,7 +73,13 @@ def rename_files(opt):
                         new_filename = new_filename.replace(s, opt.replace)
             try:
                 print(f"Renaming {file} to {new_filename}")
-                os.rename(file, new_filename)
+                if os.path.exists(new_filename):
+                    print(f"filename already exists, cannot rename:{file} to {new_filename}")
+                else:
+                    try:
+                        os.rename(file, new_filename)
+                    except Exception as e:
+                        print(f"Error renaming file: {file}, skipping, error: {e}")
             except Exception as e:
                 print(f"error opening file: {file}")
                 print(f"{e}")
