@@ -89,7 +89,14 @@ async def main(opt):
 
     config_path = "scripts/BLIP/configs/med_config.json"
 
+    cache_folder = ".cache"
     model_cache_path = ".cache/model_base_caption_capfilt_large.pth"
+
+    if not os.path.exists(cache_folder):
+        os.makedirs(cache_folder)
+    
+    if not os.path.exists(opt.out_dir):
+        os.makedirs(opt.out_dir)
 
     if not os.path.exists(model_cache_path):
         print(f"Downloading model to {model_cache_path}... please wait")
