@@ -84,7 +84,7 @@ nucleus q_factor 0.00001: (same as above)
 
 An tuning adjustment depending the algorithm used. 
 
-For the default beam 16 algorithm it limits the ability of words and phrases to be repeated.  Higher value reduces repeated words and phrases.  0.6-1.4 are sensible values for beam 16.  Default is 0.8 and works well with the defaulted value min_length of 24.  Consider using higher values if you use a min_length higher than 24 with beam 16.
+For the default beam 16 algorithm it limits the ability of words and phrases to be repeated.  Higher value reduces repeated words and phrases.  0.6-1.4 are sensible values for beam 16.  Default is 1.0 and works well with the defaulted value min_length of 24.  Consider using higher values if you use a min_length higher than 24 with beam 16.
 
 For nucleus (--nucleus), it simply changes the opinion on the prompt and does not impact repeats.  Values ranging from 0.01 to 200 seem sensible and default of 1.0 usually works well.
 
