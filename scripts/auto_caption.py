@@ -9,6 +9,8 @@ import torch
 import aiohttp
 import asyncio
 import subprocess
+import numpy as np
+import io
 
 SIZE = 384
 BLIP_MODEL_URL = 'https://storage.googleapis.com/sfr-vision-language-research/BLIP/models/model_base_caption_capfilt_large.pth'
@@ -52,7 +54,7 @@ def get_parser(**parser_kwargs):
         type=float,
         nargs="?",
         const=True,
-        default=0.8,
+        default=1.0,
         help="adjusts the likelihood of a word being repeated",
     ),
     parser.add_argument(
@@ -60,7 +62,7 @@ def get_parser(**parser_kwargs):
         type=int,
         nargs="?",
         const=True,
-        default=24,
+        default=22,
         help="adjusts the likelihood of a word being repeated",
     ),
 
@@ -75,6 +77,10 @@ def load_image(raw_image, device):
     ])
     image = transform(raw_image).unsqueeze(0).to(device)
     return image
+
+@staticmethod
+def get_out_file_name(out_dir, base_name, ext):
+    return os.path.join(out_dir, f"{base_name}{ext}")
 
 async def main(opt):
     print("starting")
@@ -131,6 +137,10 @@ async def main(opt):
 
                     image = Image.open(input_file)
 
+                    if not image.mode == "RGB":
+                        print("converting to RGB")
+                        image = image.convert("RGB")
+
                     image = load_image(image, device=torch.device("cuda"))
 
                     if opt.nucleus:
@@ -149,13 +159,23 @@ async def main(opt):
                         prefix = f"{i:05}@"
                         i += 1
                         caption = prefix+caption
-                    
-                    out_file = os.path.join(opt.out_dir, f"{caption}{file_ext}")
-                    print("   out_file:", out_file)
-                    print()
-                    
-                    if opt.format in ["filename","mrwho"]:
-                        #out_file = os.path.join(out_file)                    
+
+                    if opt.format in ["txt","text","caption"]:
+                        out_base_name = os.path.splitext(os.path.basename(img_file_name))[0]
+
+                    if opt.format in ["txt","text"]:
+                        out_file = get_out_file_name(opt.out_dir, out_base_name, ".txt")
+
+                    if opt.format in ["caption"]:
+                        out_file = get_out_file_name(opt.out_dir, out_base_name, ".caption")
+
+                    if opt.format in ["txt","text","caption"]:
+                        print("writing caption to: ", out_file)
+                        with open(out_file, "w") as out_file:
+                            out_file.write(caption)
+
+                    if opt.format in ["filename", "mrwho", "joepenna"]:       
+                        out_file = get_out_file_name(opt.out_dir, caption, file_ext)
                         with open(out_file, "wb") as out_file:
                             out_file.write(data)
                     elif opt.format == "json":
@@ -170,8 +190,8 @@ if __name__ == "__main__":
     parser = get_parser()
     opt = parser.parse_args()
 
-    if opt.format not in ["filename", "json", "mrwho", "joepenna", "parquet"]:
-        raise ValueError("format must be 'filename', 'json', or 'parquet'")
+    if opt.format not in ["filename", "mrwho", "joepenna", "txt", "text", "caption"]:
+        raise ValueError("format must be 'filename', 'mrwho', 'txt', or 'caption'")
     
     if (isWindows()): 
         print("Windows detected, using asyncio.WindowsSelectorEventLoopPolicy")

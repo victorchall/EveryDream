@@ -45,7 +45,14 @@ ex output: *"a man in a blue suit and a woman in a black dress standing next to 
 "mrwho" or "joepenna" will add \[number\]@ as a prefix for use with MrWho's captioning system (on JoePenna dream both fork) which uses that naming standard to avoid file name collisions.
 
     python scripts/auto_caption.py --format "mrwho"
+    
+"txt" or "caption" will create a ".txt" or ".caption" file instead of renaming the image.  ".txt" sidecar is another option for EveryDream trainer instead of getting the caption from the filename itself, and ".caption" is an option for other trainers.
 
+    python scripts/auto_caption.py --format "txt"
+
+or
+
+    python scripts/auto_caption.py --format "caption"
 ## Tweaks
 
 You may find the following setting useful to deal with issues with bad auto-captioning.  Start with defaults, and if you have issues with captions that seem inaccurate or reptitious try some of the following settings. 
@@ -67,7 +74,7 @@ nucleus q_factor 9999: *"a number of kites painted in different colors in a ceil
 
 nucleus q_factor 200: *"a group of people waiting under art hanging from a ceiling"*
 
-nucleus q_factor 0.8: *"several people standing around with large colorful umbrellas"*
+nucleus q_factor 1: *"several people standing around with large colorful umbrellas"*
 
 nucleus q_factor 0.01: *"people are standing in an open building with colorful paper decorations"*
 
@@ -79,7 +86,7 @@ An tuning adjustment depending the algorithm used.
 
 For the default beam 16 algorithm it limits the ability of words and phrases to be repeated.  Higher value reduces repeated words and phrases.  0.6-1.4 are sensible values for beam 16.  Default is 0.8 and works well with the defaulted value min_length of 24.  Consider using higher values if you use a min_length higher than 24 with beam 16.
 
-For nucleus (--nucleus), it simply changes the opinion on the prompt and does not impact repeats.  Values ranging from 0.01 to 200 seem sensible and default of 0.8 usually works well.
+For nucleus (--nucleus), it simply changes the opinion on the prompt and does not impact repeats.  Values ranging from 0.01 to 200 seem sensible and default of 1.0 usually works well.
 
 ![Beam vs Nucleus](../demo/beam_vs_nucleus_2.webp)
 
@@ -87,7 +94,7 @@ For nucleus (--nucleus), it simply changes the opinion on the prompt and does no
 
 Adjusts the minimum length of prompt, measured in tokens.  **Only applies to beam 16.**  Useful to adjust along with --q_factor to keep it from repeating.
 
-Default is 24.  Sensible values are 15 to 30, max is 48.  Larger values are much more prone to repeating phrases and should be accompanied by increasing --q_factor to avoid repeats.
+Default is 22.  Sensible values are 15 to 30, max is 48.  Larger values are much more prone to repeating phrases and should be accompanied by increasing --q_factor to avoid repeats.
 
     python scripts/auto_caption.py --min_length 20
 
@@ -97,7 +104,7 @@ Default is 24.  Sensible values are 15 to 30, max is 48.  Larger values are much
 
 ### Note
 
-If you continue to both increase min_length and q_factor you start to get oddly specific prompts. For example using the above image:
+If you continue to both increase min_length and q_factor with default beam algorithm in an attempt to get a really long caption without repeats it will generate oddly specific prompts. For example using the above image:
 
 --q_factor 1.9  --min_length 48: 
 
