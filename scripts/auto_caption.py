@@ -78,7 +78,6 @@ def load_image(raw_image, device):
     image = transform(raw_image).unsqueeze(0).to(device)
     return image
 
-@staticmethod
 def get_out_file_name(out_dir, base_name, ext):
     return os.path.join(out_dir, f"{base_name}{ext}")
 
