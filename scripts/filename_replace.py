@@ -56,6 +56,10 @@ def get_replace_list(opt):
     else:
         return opt.find.split(",")
 
+@staticmethod
+def get_outfile_name(infile, append):
+    new_filename = f"{os.path.splitext(infile)[0]} {append}{os.path.splitext(infile)[1]}"
+    return new_filename
 
 def rename_files(opt):
     find_list = get_replace_list(opt)
@@ -66,7 +70,7 @@ def rename_files(opt):
         if os.path.splitext(file)[1] in (".jpg", ".png", ".jpeg", ".gif", ".bmp", ".webp"):
             new_filename = file
             if opt.append_only is not None:
-                new_filename = f"{os.path.splitext(file)[0]} {opt.append_only}{os.path.splitext(file)[1]}"
+                new_filename = get_outfile_name(file, opt.append_only)
             else:
                 for s in find_list:
                     if s in file:
@@ -74,18 +78,19 @@ def rename_files(opt):
             try:
                 print(f"Renaming {file} to {new_filename}")
                 if os.path.exists(new_filename):
-                    new_filename = f"{new_filename}_{idx}"
+                    new_filename = new_filename = get_outfile_name(file, f"_{idx}")
                     print(f"filename already exists, appended '_n' to {new_filename}")
 
-                    try:
-                        os.rename(file, new_filename)
-                    except Exception as e:
-                        print(f"Error renaming file: {file}, skipping, error: {e}")
+                try:
+                    os.rename(file, new_filename)
+                except Exception as e:
+                    print(f"Error renaming file: {file}, skipping, error: {e}")
             except Exception as e:
                 print(f"error opening file: {file}")
                 print(f"{e}")
                 raise e
-            
+
+
 if __name__ == "__main__":
     parser = get_parser()
     opt = parser.parse_args()
