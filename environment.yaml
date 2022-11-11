@@ -4,7 +4,6 @@ dependencies:
   - aiofiles>=22.1.0
   - colorama>=0.4.5
   - aiohttp>=3.8.3
-  #- open_clip_torch>=1.26.12
   - timm
   - fairscale==0.4.4
   - transformers==4.19.2

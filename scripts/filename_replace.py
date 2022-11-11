@@ -60,7 +60,7 @@ def get_replace_list(opt):
 def rename_files(opt):
     find_list = get_replace_list(opt)
 
-    for idx, file in glob.iglob(opt.img_dir + "/*"):
+    for idx, file in enumerate(glob.iglob(f"{opt.img_dir}/*")):
         print(file)
 
         if os.path.splitext(file)[1] in (".jpg", ".png", ".jpeg", ".gif", ".bmp", ".webp"):
@@ -74,7 +74,7 @@ def rename_files(opt):
             try:
                 print(f"Renaming {file} to {new_filename}")
                 if os.path.exists(new_filename):
-                    new_filename = new_filename + "_" + idx
+                    new_filename = f"{new_filename}_{idx}"
                     print(f"filename already exists, appended '_n' to {new_filename}")
 
                     try:
