@@ -56,7 +56,6 @@ def get_replace_list(opt):
     else:
         return opt.find.split(",")
 
-@staticmethod
 def get_outfile_name(infile, append):
     new_filename = f"{os.path.splitext(infile)[0]} {append}{os.path.splitext(infile)[1]}"
     return new_filename
