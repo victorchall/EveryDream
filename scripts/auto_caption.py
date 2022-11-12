@@ -150,9 +150,6 @@ async def main(opt):
 
                     caption = captions[0]
 
-                    # clean up caption
-                    caption = caption.replace("/", "").replace("\\", "")
-
                     input_file.seek(0)
                     data = input_file.read()
                     input_file.close()
@@ -176,7 +173,8 @@ async def main(opt):
                         with open(out_file, "w") as out_file:
                             out_file.write(caption)
 
-                    if opt.format in ["filename", "mrwho", "joepenna"]:       
+                    if opt.format in ["filename", "mrwho", "joepenna"]:
+                        caption = caption.replace("/", "").replace("\\", "")  # must clean slashes using filename
                         out_file = get_out_file_name(opt.out_dir, caption, file_ext)
                         with open(out_file, "wb") as out_file:
                             out_file.write(data)
