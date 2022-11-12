@@ -150,6 +150,9 @@ async def main(opt):
 
                     caption = captions[0]
 
+                    # clean up caption
+                    caption = caption.replace("/", "").replace("\\", "")
+
                     input_file.seek(0)
                     data = input_file.read()
                     input_file.close()
