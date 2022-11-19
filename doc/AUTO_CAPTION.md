@@ -4,7 +4,11 @@ Automatic captioning uses Salesforce's BLIP to automatically create a clean sent
 
 This requires an Nvidia GPU, but is not terribly intensive work.  It should run fine on something like a 1050 Ti 4GB. 
 
-I suggest using [Birme](https://www.birme.net/?target_width=512&target_height=512&auto_focal=false&image_format=webp&quality_jpeg=95&quality_webp=99) to crop and resize first, but there are various tools out there for this.  I strongly suggest making sure to crop well for training!  It's best to crop to square first because you do not want to caption things that are later removed by cropping.
+[EveryDream trainer](https://github.com/victorchall/EveryDream-trainer) no longer requires cropped images. You only need to crop to exclude stuff you don't want trained, or to improve the portion of face close ups in your data.  The EveryDream trainer now accepts multiple aspect ratios and can train on them natively.
+
+But if you do wish to crop for other trainers, you can use [Birme](https://www.birme.net/?target_width=512&target_height=512&auto_focal=false&image_format=webp&quality_jpeg=95&quality_webp=99) to crop and resize first.  There are various tools out there for this.  
+
+
 
 ## Execute
 

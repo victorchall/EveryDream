@@ -37,8 +37,6 @@ Script should be reasonably fast depending on your internet speed.  I'm able to 
 
 ## Other resources
 
-Easy resize/crop tool: [Birme](https://www.birme.net/?target_width=512&target_height=512&auto_focal=false&image_format=webp&quality_jpeg=95&quality_webp=99)
-
 Nvidia has compiled a close up photo set: [ffhq-dataset](https://github.com/NVlabs/ffhq-dataset)
 
 ## Batch run
