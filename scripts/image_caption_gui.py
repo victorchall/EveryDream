@@ -42,25 +42,22 @@ class ImageView(tk.Frame):
     def __init__(self, root):
         tk.Frame.__init__(self, root)
 
+        self.root = root
         self.base_path = None
         self.images = []
         self.index = 0
 
-        # create a 2x2 grid
-        self.grid_columnconfigure(0, weight=2)
-        self.grid_columnconfigure(1, weight=1)
-        self.grid_rowconfigure(1, weight=1)
-
-        # filename
-        self.filename = tk.StringVar()
-        self.filename_widget = tk.Label(self, textvariable=self.filename)
-        self.filename_widget.grid(row=0, column=0, columnspan=2, sticky=tk.N + tk.W + tk.E)
         # image
-        self.image_widget = tk.Label(self)
-        self.image_widget.grid(row=1, column=0, sticky=tk.W + tk.S + tk.N)
+        self.image_frame = tk.Frame(self)
+        self.image_label = tk.Label(self.image_frame)
+        self.image_label.place(relx=0.5, rely=0.5, anchor=tk.CENTER)
+        self.image_frame.pack(expand=True, fill=tk.BOTH, side=tk.LEFT)
+        
         # caption field
-        self.caption_field = tk.Text(self, wrap="word")
-        self.caption_field.grid(row=1, column=1, sticky=tk.E + tk.S + tk.N)
+        self.caption_frame = tk.Frame(self)
+        self.caption_field = tk.Text(self.caption_frame, wrap="word", width=50)
+        self.caption_field.pack(expand=True, fill=tk.BOTH)
+        self.caption_frame.pack(fill=tk.Y, side=tk.RIGHT)
 
     def open_folder(self):
         self.base_path = Path(filedialog.askdirectory())
@@ -114,19 +111,26 @@ class ImageView(tk.Frame):
         if (len(self.images)) == 0:
             self.filename.set('')
             self.caption_field.delete(1.0, tk.END)
-            self.image_widget.configure(image=None)
+            self.image_label.configure(image=None)
             return
         img = self.images[self.index]
         # filename
-        self.filename.set(self.images[self.index].path.name)
+        title = self.images[self.index].path.name if len(self.images) > 0 else ''
+        self.root.title(title)
         # caption
         self.caption_field.delete(1.0, tk.END)
         self.caption_field.insert(tk.END, img.read_caption())
         # image
         img = Image.open(self.images[self.index].path)
-        img = ImageTk.PhotoImage(img)
-        self.image_widget.configure(image=img)
-        self.image_widget.image = img
+        
+        # scale the image to fit inside the frame
+        w = self.image_frame.winfo_width()
+        h = self.image_frame.winfo_height()
+        if img.width > w or img.height > h:
+            img.thumbnail((w, h))
+        photoImage = ImageTk.PhotoImage(img)
+        self.image_label.configure(image=photoImage)
+        self.image_label.image = photoImage
     
 if __name__=='__main__':
     root = tk.Tk()
@@ -147,5 +151,5 @@ if __name__=='__main__':
     root.bind('<Shift-Delete>', lambda e: view.delete_image())
 
     view = ImageView(root)
-    view.pack(side="top", fill="both", expand=True)
+    view.pack(side=tk.TOP, fill=tk.BOTH, expand=True)
     root.mainloop()
