@@ -24,6 +24,8 @@ See clip_rename.bat for an example to chain captioning and renaming together.
 
 [Training](https://github.com/victorchall/EveryDream-trainer) (separate repo) - Fine tuning with captioned training and ground truth data (needs 24GB GPU).
 
+[Image Caption GUI and video frame extractors](./doc/CAPTION_GUI.md) and courtesy of [MStevenson](https://github.com/mstevenson/)
+
 ## Install
 
 You can use conda or venv.  This was developed on Python 3.10.5 but may work on older newer versions.
