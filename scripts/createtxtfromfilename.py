@@ -2,7 +2,6 @@ import glob
 import os
 import argparse
 
-
 def create_txt_from_filename(path):
     """
     create a .txt file for each file in the path so you can lengthen the caption
@@ -22,7 +21,6 @@ def create_txt_from_filename(path):
             text_file.write(caption)
 
 if __name__ == "__main__":
-    
     parser = argparse.ArgumentParser()
     parser.add_argument("--path", type=str, help="path to folder")
     args = parser.parse_args()
