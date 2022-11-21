@@ -7,28 +7,44 @@
 # [shift + delete] to move the current image into a '_deleted' folder.
 # [escape] to exit the app.
 
-import os
 import sys
 import tkinter as tk
 from tkinter import filedialog
 from PIL import Image, ImageTk
 from pathlib import Path
 
+class CaptionedImage():
+    def __init__(self, image_path):
+        self.base_path = image_path.parent
+        self.path = image_path
+    
+    def caption_path(self):
+        return self.base_path / (self.path.stem + '.txt')
+
+    def read_caption(self):
+        caption_path = self.caption_path()
+        if caption_path.exists():
+            with open(caption_path, 'r', encoding='utf-8', newline='') as f:
+                return f.read()
+        return ''
+
+    def write_caption(self, caption):
+        caption_path = self.caption_path()
+        with open(str(caption_path), 'w', encoding='utf-8', newline='') as f:
+            f.write(caption)
+    
+    # sort
+    def __lt__(self, other):
+        return self.path < other.path
+
 class ImageView(tk.Frame):
-
-    filename = None
-    caption = None
-
-    folder = None
-    image_path = None
-    image_list = []
-    image_index = 0
-    image_widget = None
-    filename_widget = None
-    caption_field = None
 
     def __init__(self, root):
         tk.Frame.__init__(self, root)
+
+        self.base_path = None
+        self.images = []
+        self.index = 0
 
         # create a 2x2 grid
         self.grid_columnconfigure(0, weight=2)
@@ -47,84 +63,70 @@ class ImageView(tk.Frame):
         self.caption_field.grid(row=1, column=1, sticky=tk.E + tk.S + tk.N)
 
     def open_folder(self):
-        self.folder = Path(filedialog.askdirectory())
-        if self.folder is None:
+        self.base_path = Path(filedialog.askdirectory())
+        if self.base_path is None:
             return
-        self.image_list.clear()
-        for file in os.listdir(self.folder):
-            f = Path(file)
-            if f.suffix == '.jpg' or f.suffix == '.png':
-                self.image_list.append(f)
-        self.image_list.sort()
-        self.load_image()
-        self.load_label_txt()
+        self.images.clear()
+        for file in self.base_path.glob('*.[jp][pn][gg]'): # jpg or png
+            self.images.append(CaptionedImage(file))
+        self.images.sort()
+        self.update_ui()
     
-    def load_image(self):
-        self.image_path = self.folder / self.image_list[self.image_index]
-        self.filename.set(self.image_list[self.image_index])
-        img = Image.open(self.image_path)
-        if img.width > root.winfo_width() or img.height > root.winfo_height():
-            img.thumbnail((800, 800))
-        img = ImageTk.PhotoImage(img)
-        self.image_widget.configure(image=img)
-        self.image_widget.image = img
-    
-    def write_label_txt(self):
-        label_txt_file = self.folder / (self.image_list[self.image_index].stem + '.txt')
-        # overwrite label text file with the current text
-        current_label_text = self.caption_field.get("1.0", "end-1c")
-        current_label_text = current_label_text.replace('\r', '').replace('\n', '').strip()
-        if current_label_text != '':
-            print('wrote label text to file: ' + str(label_txt_file))
-            with open(str(label_txt_file.absolute()), 'w') as f:
-                f.write(current_label_text)
+    def store_caption(self):
+        txt = self.caption_field.get(1.0, tk.END)
+        txt = txt.replace('\r', '').replace('\n', '').strip()
+        self.images[self.index].write_caption(txt)
         
-    def load_label_txt(self):
-        # load label text file for the new image
-        self.caption_field.delete(1.0, tk.END)
-        label_txt_file = self.folder / (self.image_list[self.image_index].stem + '.txt')
-        if label_txt_file.exists():
-            with open(str(label_txt_file.absolute()), 'r') as f:
-                self.caption_field.insert(tk.END, f.read())
+    def set_index(self, index):
+        self.index = index % len(self.images)
 
     def go_to_image(self, index):
-        self.write_label_txt()
-        self.image_index = index
-        self.load_label_txt()
-        self.load_image()
+        if len(self.images) == 0:
+            return
+        self.store_caption()
+        self.set_index(index)
+        self.update_ui()
 
     def next_image(self):
-        self.write_label_txt()
-        self.image_index += 1
-        if self.image_index >= len(self.image_list):
-            self.image_index = 0
-        self.load_label_txt()
-        self.load_image()
+        self.go_to_image(self.index + 1)
 
     def prev_image(self):
-        self.write_label_txt()
-        self.image_index -= 1
-        if self.image_index < 0:
-            self.image_index = len(self.image_list) - 1
-        self.load_label_txt()
-        self.load_image()
+        self.go_to_image(self.index - 1)
 
     # move current image to a "_deleted" folder
     def delete_image(self):
-        if len(self.image_list) == 0:
+        if len(self.images) == 0:
             return
-        cur_image_name = self.image_list[self.image_index]
-        cur_image_path = self.folder / cur_image_name
-        self.next_image()
-        deleted_folder = Path(self.folder / '_deleted')
-        if not deleted_folder.exists():
-            deleted_folder.mkdir()
-        os.rename(cur_image_path, deleted_folder / cur_image_name)
-        # move the corresponding text file to the deleted folder
-        txt_file_name = cur_image_name.stem + '.txt'
-        label_txt_file = self.folder / txt_file_name
-        if label_txt_file.exists():
-            os.rename(label_txt_file, deleted_folder / txt_file_name)
+        img = self.images[self.index]
+
+        trash_path = self.base_path / '_deleted'
+        if not trash_path.exists():
+            trash_path.mkdir()
+        img.path.rename(trash_path / img.path.name)
+        caption_path = img.caption_path()
+        if caption_path.exists():
+            caption_path.rename(trash_path / caption_path.name)
+
+        del self.images[self.index]
+        self.update_ui()
+    
+    def update_ui(self):
+        if (len(self.images)) == 0:
+            self.filename.set('')
+            self.caption_field.delete(1.0, tk.END)
+            self.image_widget.configure(image=None)
+            return
+        img = self.images[self.index]
+        # filename
+        self.filename.set(self.images[self.index].path.name)
+        # caption
+        self.caption_field.delete(1.0, tk.END)
+        self.caption_field.insert(tk.END, img.read_caption())
+        # image
+        img = Image.open(self.images[self.index].path)
+        img = ImageTk.PhotoImage(img)
+        self.image_widget.configure(image=img)
+        self.image_widget.image = img
     
 if __name__=='__main__':
     root = tk.Tk()
@@ -138,10 +140,10 @@ if __name__=='__main__':
     root.bind('<Escape>', lambda e: root.destroy())
     root.bind('<Prior>', lambda e: view.prev_image())
     root.bind('<Next>', lambda e: view.next_image())
-    root.bind('<Shift-Prior>', lambda e: view.go_to_image(view.image_index - 10))
-    root.bind('<Shift-Next>', lambda e: view.go_to_image(view.image_index + 10))
+    root.bind('<Shift-Prior>', lambda e: view.go_to_image(view.index - 10))
+    root.bind('<Shift-Next>', lambda e: view.go_to_image(view.index + 10))
     root.bind('<Shift-Home>', lambda e: view.go_to_image(0))
-    root.bind('<Shift-End>', lambda e: view.go_to_image(len(view.image_list) - 1))
+    root.bind('<Shift-End>', lambda e: view.go_to_image(len(view.images) - 1))
     root.bind('<Shift-Delete>', lambda e: view.delete_image())
 
     view = ImageView(root)
