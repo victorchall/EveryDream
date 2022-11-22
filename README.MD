@@ -20,7 +20,9 @@ Join the EveryDream discord here: https://discord.gg/uheqxU6sXN
 
 [File renaming](./doc/FILE_RENAME.md) - Simple script for replacing generic pronouns that come out of clip in filenames with proper names (ex "a man" -> "john doe", "a person" -> "jane doe").
 
-See clip_rename.bat for an example to chain captioning and renaming together.
+*See clip_rename.bat for an example to chain captioning and renaming together.*
+
+[Compress images](./doc/COMPRESS_IMG.md) - Compresses images to WEBP with a given size (ex 1.5 megapixels) to reduce disk usage if you've downloaded some massive PNG data sets (ex. FFHQ) and wish to save some disk space.
 
 [Training](https://github.com/victorchall/EveryDream-trainer) (separate repo) - Fine tuning with captioned training and ground truth data (needs 24GB GPU).
 
