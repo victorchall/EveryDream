@@ -1,42 +1,90 @@
-# extract frames from videos every n seconds
-
-import cv2
-import os
+import argparse
 from pathlib import Path
+import cv2
 
-video_base_path = Path('../movies')
-frames_root_path = Path('../frames')
+def get_parser(**parser_kwargs):
+    parser = argparse.ArgumentParser(**parser_kwargs)
+    parser.add_argument(
+        "--vid_dir",
+        required=True,
+        type=str,
+        nargs="?",
+        const=True,
+        help="directory with videos to extract frames",
+    )
+    parser.add_argument(
+        "--out_dir",
+        type=str,
+        nargs="?",
+        const=True,
+        help="directory to put extracted images",
+    )
+    parser.add_argument(
+        "--format",
+        type=str,
+        nargs="?",
+        const=True,
+        default="png",
+        choices=["png", "jpg"],
+        help="image file format of the extracted frames",
+    )
+    parser.add_argument(
+        "--interval",
+        type=int,
+        nargs="?",
+        const=True,
+        default=10,
+        help="number of seconds between frame captures",
+    )
+    return parser
+    
+def get_videos(input_dir):
+    for f in input_dir.iterdir():
+        file_path = Path(f)
+        if file_path.suffix in [".mp4", ".avi", ".mov", ".mpeg", ".mpg", ".mkv"]:
+            yield file_path
 
-interval = 30 #seconds
+def capture_frames(input_dir, output_dir):
+    print (f'Capturing video frames in {opt.interval} second intervals.\n')
 
-if not video_base_path.exists():
-    print('Video base path does not exist')
-    exit(1)
+    for video_path in get_videos(input_dir):
+        print(f'Extracting {video_path}')
+        cap = cv2.VideoCapture(str(video_path))
+        if not cap.isOpened():
+            print(f'Could not open video')
+            continue
 
-if not frames_root_path.exists():
-    os.mkdir(frames_root_path)
+        output = output_dir / video_path.stem
+        output.mkdir(exist_ok=True, parents=True)
 
-# loop over all files in the base path
-for video_path in video_base_path.iterdir():
-    frames_folder = frames_root_path / f'frames-{video_path.stem}'
-    if not frames_folder.exists():
-        os.mkdir(frames_folder)
+        current_frame = 0
+        count = 0
+        fps = cap.get(cv2.CAP_PROP_FPS)
+        while cap.isOpened():
+            ret, frame = cap.read()
+            if ret:
+                count_str = str(count).zfill(4)
+                cv2.imwrite(str(output / f'frame_{count_str}.{opt.format}'), frame)
+                current_frame += fps * opt.interval
+                cap.set(cv2.CAP_PROP_POS_FRAMES, current_frame)
+                count += 1
+            else:
+                cap.release()
+                break
 
-    print(f'Loading video {video_path}')
-    print(f'Saving frames to {frames_folder}')
+    print(f'\nFinished extracting frames to {output_dir}\n')
 
-    cap = cv2.VideoCapture(str(video_path))
-    fps = cap.get(cv2.CAP_PROP_FPS)
-    count = 0
+if __name__ == "__main__":
+    parser = get_parser()
+    opt = parser.parse_args()
 
-    while(cap.isOpened()):
-        ret, frame = cap.read()
-        if ret:
-            cv2.imwrite(str(frames_folder / f'frame{count}.jpg'), frame)
-            count += fps * interval
-            cap.set(cv2.CAP_PROP_POS_FRAMES, count)
-        else:
-            cap.release()
-            break
+    if (not Path(opt.vid_dir).exists):
+        print("Video directory does not exist.")
+        exit(1)
 
-print('done')
+    if (opt.out_dir is None):
+        output = Path(opt.vid_dir) / "output"
+        print(f"No output directory specified, using default: {output}")
+    else:
+        output = Path(opt.out_dir)
+    capture_frames(Path(opt.vid_dir), output)
