@@ -24,7 +24,7 @@ See clip_rename.bat for an example to chain captioning and renaming together.
 
 [Training](https://github.com/victorchall/EveryDream-trainer) (separate repo) - Fine tuning with captioned training and ground truth data (needs 24GB GPU).
 
-[Image Caption GUI and video frame extractors](./doc/CAPTION_GUI.md) and courtesy of [MStevenson](https://github.com/mstevenson/)
+[Image Caption GUI](./doc/CAPTION_GUI.md) and [Video frame extractor](./doc/VIDEO_EXTRACTOR.md) courtesy of [MStevenson](https://github.com/mstevenson/)
 
 ## Install
 
