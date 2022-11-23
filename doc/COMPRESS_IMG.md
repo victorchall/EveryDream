@@ -1,6 +1,8 @@
 # Mass compressing images in a folder
 
-This script will sweepy a folder and compress all the images to a given total number of megapixels.  Aspect ratio is not changed and nothing is cropped.  If an image is already lower than the number of megapixels specified, *it will be skipped completely.*
+This script will sweep a folder and compress all the images to a given total number of megapixels.  Aspect ratio is not changed and nothing is cropped.  
+
+*If an image is already lower than the number of megapixels specified,* **it will be skipped completely.**
 
 This script will also correct issues with images having EXIF directives that rotate the image.  Or, in other words, it will make sure the proper orientation is saved native to the output image as trainers may not respect EXIF rotation directives.
 
