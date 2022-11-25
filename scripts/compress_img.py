@@ -2,7 +2,7 @@ from PIL import Image, ImageOps
 import os
 import glob
 import argparse
-import sys
+import aiofiles
 
 def get_parser(**parser_kwargs):
     parser = argparse.ArgumentParser(**parser_kwargs)
@@ -46,6 +46,14 @@ def get_parser(**parser_kwargs):
         default=None,
         help="output folder, default is to overwrite original",
     ),
+    parser.add_argument(
+        "--noresize",
+        type=bool,
+        nargs="?",
+        const=True,
+        default=False,
+        help="fixes EXIF rotation, saves WEBP, but do not resize",
+    ),
 
     return parser
 
@@ -63,18 +71,20 @@ if __name__ == '__main__':
         ext = os.path.splitext(infile)[1]
         if ext in [".jpg", ".jpeg", ".png", ".webp"]:
             outfile = os.path.splitext(infile)[0] + ".webp"
+            outfile = os.path.join(opt.out_dir, os.path.basename(outfile))
             try:
                 img = Image.open(infile)
                 exif = img.getexif()
                 
-                if infile.endswith("00002.png"):
-                    print(str(exif))
-
                 w, h = img.size
                 pixels = w * h
 
-                if pixels <= max_pixels:
+                if pixels <= max_pixels and not opt.noresize:
                     print(f"skipping {infile}, {pixels} already under max of {pixels}")
+                elif opt.noresize:
+                    print(f"exif rotation and WEBP compression on {infile}, to: {outfile}")
+                    img = ImageOps.exif_transpose(img)
+                    img.save(outfile, "WEBP", quality=opt.quality, method=5)
                 else:
                     # calculate new size
                     ratio = max_pixels / pixels
@@ -97,5 +107,6 @@ if __name__ == '__main__':
                         print(f"error in {infile}")
                         raise ex
 
-            except IOError:
-                print("cannot convert", infile)
+            except Exception as ex:
+                print(f"cannot open {infile}")
+                raise ex
