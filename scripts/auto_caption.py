@@ -109,9 +109,9 @@ async def main(opt):
         
         async with aiohttp.ClientSession() as session:
             async with session.get(BLIP_MODEL_URL) as res:
-                result = await res.read()
                 with open(model_cache_path, 'wb') as f:
-                    f.write(result)
+                    async for chunk in res.content.iter_chunked(1024):
+                        f.write(chunk)
         print(f"Model cached to: {model_cache_path}")
     else:
         print(f"Model already cached to: {model_cache_path}")
