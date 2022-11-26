@@ -1,14 +1,12 @@
 # EveryDream toolkit for fine tuning
 
-This repo will contain tools for data engineering efforts for people interested in taking their fine tuning beyond the initial DreamBooth paper or XavierXiao's original Dreambooth implementation for Stable Diffusion, and may be useful for other projects.
+This repo will contain tools for data engineering efforts for people interested in taking their fine tuning beyond the initial DreamBooth paper implementations for Stable Diffusion, and may be useful for other image projects.
 
-For instance, by using ground truth Laion data mixed in with training data to replace "regularization" images, together with clip-interrogated captioning or original TEXT caption from laion, the final few concepts left of the original DreamBooth paper will have been removed.  This is a significant step towards towards full fine tuning capabilities. 
+For instance with Stable Diffusion, by using ground truth Laion data mixed in with training data to replace "regularization" images, together with clip-interrogated captioning or original TEXT caption from laion, or human-geneated labels, training quality can be improved.  These are a significant steps towards towards full fine tuning capabilities. 
 
 Captioned training together with regularization has enabled multi-subject and multi-style training at the same time, and can scale to larger training efforts.
 
-For example, you can download a large scale model for Final Fantasy 7 Remake here: https://huggingface.co/panopstor/ff7r-stable-diffusion and be sure to also follow up on the gist link at the bottom for more information along with links to example output of a multi-model fine tuning. 
-
-Since DreamBooth is now fading away in favor of improved techniques, I will call the tecnique of using fully captioned training together with ground truth data "EveryDream" to avoid confusion.
+As an example project, you can download a large scale model for Final Fantasy 7 Remake here: https://huggingface.co/panopstor/ff7r-stable-diffusion and be sure to also follow up on the gist link at the bottom for more information along with links to example output of a multi-model fine tuning. 
 
 Join the EveryDream discord here: https://discord.gg/uheqxU6sXN
 
