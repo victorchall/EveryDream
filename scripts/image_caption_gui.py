@@ -35,7 +35,7 @@ class CaptionedImage():
     
     # sort
     def __lt__(self, other):
-        return self.path < other.path
+        return str(self.path).lower() < str(other.path).lower()
 
 class ImageView(tk.Frame):
 
