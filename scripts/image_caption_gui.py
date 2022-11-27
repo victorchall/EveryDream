@@ -116,7 +116,7 @@ class ImageView(tk.Frame):
         img = self.images[self.index]
         # filename
         title = self.images[self.index].path.name if len(self.images) > 0 else ''
-        self.root.title(title)
+        self.root.title(title + f' ({self.index+1}/{len(self.images)})')
         # caption
         self.caption_field.delete(1.0, tk.END)
         self.caption_field.insert(tk.END, img.read_caption())
