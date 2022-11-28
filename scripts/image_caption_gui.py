@@ -60,7 +60,10 @@ class ImageView(tk.Frame):
         self.caption_frame.pack(fill=tk.Y, side=tk.RIGHT)
 
     def open_folder(self):
-        self.base_path = Path(filedialog.askdirectory())
+        dir = filedialog.askdirectory()
+        if not dir:
+            return
+        self.base_path = Path(dir)
         if self.base_path is None:
             return
         self.images.clear()
