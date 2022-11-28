@@ -106,8 +106,8 @@ class ImageView(tk.Frame):
         caption_path = img.caption_path()
         if caption_path.exists():
             caption_path.rename(trash_path / caption_path.name)
-
         del self.images[self.index]
+        self.set_index(self.index)
         self.update_ui()
     
     def update_ui(self):
