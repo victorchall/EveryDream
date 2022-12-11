@@ -26,6 +26,8 @@ Join the EveryDream discord here: https://discord.gg/uheqxU6sXN
 
 [Image Caption GUI](./doc/CAPTION_GUI.md) and [Video frame extractor](./doc/VIDEO_EXTRACTOR.md) courtesy of [MStevenson](https://github.com/mstevenson/)
 
+[General Tools Notebook](EveryDream_Tools.ipynb) Collection of various tools in this codebase by [Nawnie](https://github.com/nawnie) if you prefer to use Notebook GUI instead of the command line.
+
 ## Install
 
 You can use conda or venv.  This was developed on Python 3.10.5 but may work on older newer versions.
