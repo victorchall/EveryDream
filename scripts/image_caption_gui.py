@@ -35,7 +35,7 @@ class CaptionedImage():
     
     # sort
     def __lt__(self, other):
-        return self.path < other.path
+        return str(self.path).lower() < str(other.path).lower()
 
 class ImageView(tk.Frame):
 
@@ -60,7 +60,10 @@ class ImageView(tk.Frame):
         self.caption_frame.pack(fill=tk.Y, side=tk.RIGHT)
 
     def open_folder(self):
-        self.base_path = Path(filedialog.askdirectory())
+        dir = filedialog.askdirectory()
+        if not dir:
+            return
+        self.base_path = Path(dir)
         if self.base_path is None:
             return
         self.images.clear()
@@ -103,8 +106,8 @@ class ImageView(tk.Frame):
         caption_path = img.caption_path()
         if caption_path.exists():
             caption_path.rename(trash_path / caption_path.name)
-
         del self.images[self.index]
+        self.set_index(self.index)
         self.update_ui()
     
     def update_ui(self):
@@ -116,7 +119,7 @@ class ImageView(tk.Frame):
         img = self.images[self.index]
         # filename
         title = self.images[self.index].path.name if len(self.images) > 0 else ''
-        self.root.title(title)
+        self.root.title(title + f' ({self.index+1}/{len(self.images)})')
         # caption
         self.caption_field.delete(1.0, tk.END)
         self.caption_field.insert(tk.END, img.read_caption())

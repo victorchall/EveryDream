@@ -151,10 +151,12 @@ def scan_path(queue, args):
 
 def shrink(img, args):
     """Shrink an image."""
-    pixels = img.width * img.height
-    ratio = args.max_mp / pixels
+    hw = img.size
+    ratio = args.max_mp / (hw[0]*hw[1])
+    newhw = (int(hw[0]*ratio**0.5), int(hw[1]*ratio**0.5))
+
     try:
-        return ImageOps.scale(img, ratio, Image.LANCZOS)
+        return img.resize(newhw, Image.BICUBIC)
     except Exception as err:
         inline(f"[!] Error Shrinking: {img.filename} - {err}", True)
         return img
