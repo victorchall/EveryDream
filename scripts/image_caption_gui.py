@@ -13,6 +13,8 @@ from tkinter import filedialog
 from PIL import Image, ImageTk
 from pathlib import Path
 
+IMG_EXT = ["jpg", "jpeg", "png"]
+
 class CaptionedImage():
     def __init__(self, image_path):
         self.base_path = image_path.parent
@@ -67,8 +69,9 @@ class ImageView(tk.Frame):
         if self.base_path is None:
             return
         self.images.clear()
-        for file in self.base_path.glob('*.[jp][pn][gg]'): # jpg or png
-            self.images.append(CaptionedImage(file))
+        for ext in IMG_EXT:
+            for file in self.base_path.glob(f'*.{ext}'):
+                self.images.append(CaptionedImage(file))
         self.images.sort()
         self.update_ui()
     
