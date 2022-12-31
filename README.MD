@@ -40,7 +40,7 @@ Don't forget to activate every time you open the command prompt later.
 
     activate_venv.bat
 
-To use conda:
+To use conda instead of venv:
 
     conda env create -f environment.yaml
 
