@@ -1,4 +1,4 @@
-# EveryDream toolkit for fine tuning
+# EveryDream Tools
 
 This repo will contain tools for data engineering efforts for people interested in taking their fine tuning beyond the initial DreamBooth paper implementations for Stable Diffusion, and may be useful for other image projects.
 
