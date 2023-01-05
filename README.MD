@@ -2,6 +2,8 @@
 
 This repo will contain tools for data engineering efforts for people interested in taking their fine tuning beyond the initial DreamBooth paper implementations for Stable Diffusion, and may be useful for other image projects.
 
+If you are looking for trainers, check out [EveryDream 1.0](https://github.com/victorchall/EveryDream-trainer) and [EveryDream 2](https://github.com/victorchall/EveryDream2trainer).  This is just a toolkit repo for data work but works in concert with those trainers.
+
 For instance with Stable Diffusion, by using ground truth Laion data mixed in with training data to replace "regularization" images, together with clip-interrogated captioning or original TEXT caption from laion, or human-geneated labels, training quality can be improved.  These are a significant steps towards towards full fine tuning capabilities. 
 
 Captioned training together with regularization has enabled multi-subject and multi-style training at the same time, and can scale to larger training efforts.
