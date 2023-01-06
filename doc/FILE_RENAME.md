@@ -13,6 +13,12 @@ By default, it will replace "a man", "a woman", and "a person" with your supplie
 -> 
 "john doe standing in a park with birds on his shoulders.jpg"*
 
+## Append tags only
+
+    python scripts/filename_replace.py --img_dir "x:\myfiles" --append_only " by claude monet"
+
+This will simply append " by claude monet" without replacing anything, useful to add tags or artstyle keywords.
+
 ## Chaining with auto caption
 
 You can chain together the auto_caption.py and file_rename.py to help deal with multiple people in photos in a simple shell script (bash or windows .bat) with a bit of thinking about what you replace and using --find to specify the pronoun to replace first more specifically than all three default pronouns. 
