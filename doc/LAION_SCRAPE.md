@@ -16,7 +16,7 @@ One suggested use is to take this data and replace regularization images with gr
 
 It should execute quite quickly as it uses async task gathers for the the HTTP and fileio work. 
 
-Default folders are /laion for the parquest files and /output for downloaded images relative to the root folder, but consider disk space and point to another location if needed.
+Default folders are /laion for the parquet files and /output for downloaded images relative to the root folder, but consider disk space and point to another location if needed.
 
 ## Examples
 
