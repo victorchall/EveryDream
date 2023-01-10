@@ -8,6 +8,7 @@ It has been tested with 2B-en-aesthetic, but may need minor tweaks for some othe
 
 https://huggingface.co/datasets/laion/laion2B-en-aesthetic
 
+**This tool does not work unless you download a set of Laion parquet files, above link is suggested.** Download all 128 .parquet files and place them in the /laion folder.
 
 The script will rename downloaded files to the best of its ability to the TEXT (caption) of the image with the original file extension, which can be plugged into the new class of caption-capable DreamBooth apps or the EveryDream trainer that will use the filename as the prompt for training.  
 
