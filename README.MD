@@ -24,7 +24,7 @@ Join the EveryDream discord here: https://discord.gg/uheqxU6sXN
 
 [Compress images](./doc/COMPRESS_IMG.md) - Compresses images to WEBP with a given size (ex 1.5 megapixels) to reduce disk usage if you've downloaded some massive PNG data sets (ex. FFHQ) and wish to save some disk space.
 
-[Training](https://github.com/victorchall/EveryDream-trainer) (separate repo) - Fine tuning with captioned training and ground truth data (needs 24GB GPU).
+[Training](https://github.com/victorchall/EveryDream2trainer) (separate repo) - Fine tuning
 
 [Image Caption GUI](./doc/CAPTION_GUI.md) and [Video frame extractor](./doc/VIDEO_EXTRACTOR.md) courtesy of [MStevenson](https://github.com/mstevenson/)
 
