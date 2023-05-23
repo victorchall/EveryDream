@@ -18,7 +18,7 @@ If you are hoping to use massive training files in the future as tech advances, 
 
 ## Usage
 
-    usage: compress_img_2.py [-h] [--img_dir IMG_DIR] [--out_dir OUT_DIR]
+    usage: compress_img.py [-h] [--img_dir IMG_DIR] [--out_dir OUT_DIR]
                             [--max_mp MAX_MP] [--quality QUALITY] [--overwrite]
                             [--noresize] [--delete]
 
