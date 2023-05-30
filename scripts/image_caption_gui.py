@@ -13,7 +13,7 @@ from tkinter import filedialog
 from PIL import Image, ImageTk
 from pathlib import Path
 
-IMG_EXT = ["jpg", "jpeg", "png"]
+IMG_EXT = ["jpg", "jpeg", "png", "webp"]
 
 class CaptionedImage():
     def __init__(self, image_path):
