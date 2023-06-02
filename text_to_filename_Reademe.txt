@@ -1,0 +1,32 @@
+# Text to Filename
+
+This Python script allows you to rename image files based on the contents of corresponding text files in a given directory. It supports various image formats, including .png, .jpg, .jpeg, .gif, .webp, and .bmp.
+
+## Usage
+
+To use this script, simply run it from the command line and provide the input directory containing the image and text files as an argument:
+
+## How it works
+
+The script performs the following steps:
+
+1. Lists all files in the input directory.
+2. Filters out image and text files.
+3. Creates a dictionary with the base names of the files as keys and the file names as values.
+4. Renames image files with the contents of the corresponding text files and adds a counter to avoid duplicate file names.
+
+
+## Requirements
+
+This script requires the following Python libraries:
+
+- os
+- argparse
+- pathlib
+- tqdm
+
+Make sure to install these libraries before running the script.
+
+## License
+
+This project is licensed under the MIT License.
